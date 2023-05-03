@@ -18,10 +18,16 @@ subreddits = ['ucr'] # Can add more subreddits later
 # Filename to hold posts
 # Still need code to collect at least 500MB of raw data, ~10MB per file
 filename = 'posts.json'
-# Open file to write data
-if os.path.exists(filename):
-    os.remove(filename)
-file = open(filename, 'w')
+# Try to open file to write data
+try:
+    if os.path.exists(filename):
+        os.remove(filename)
+    file = open(filename, 'w')
+# Failed to open file
+except Exception as e:
+    print('ERROR: Failed to open file {}: {}'.format(filename, e))
+    
+
 
 # Posts list to hold each post's data
 posts = list()
@@ -66,5 +72,9 @@ with file as f:
         json.dump(post_data, f)
         # One post per row
         f.write('\n')
-# Close file
-file.close()
+# Try to close file
+try:
+    file.close()
+# Failed to close file
+except Exception as e:
+    print('ERROR: Failed to close file {}: {}'.format(filename, e))
