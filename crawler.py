@@ -13,7 +13,9 @@ reddit = praw.Reddit(client_id='BVN377aTHCSupxRmvJxRcA',
                      password='crawling21')
 
 # Subreddits to crawl
-subreddits = ['DataIsBeautiful'] # Can add more subreddits later
+subreddits = ['ucr','ucmerced','ucla','UCDavis','berkely','UCSD', #,
+              'UCSantaBarbara','UCSC','UCI','UofCalifornia',
+              'CSULB', 'CSULA', 'csuf'] #'csuf'] # Can add more subreddits later IT TAKES A WHILE GOD DAYUM
 
 # Posts list to hold each post's data
 posts = list()
@@ -21,7 +23,7 @@ posts = list()
 # Go through each subreddit
 for subreddit_name in subreddits:
     # Currently grabs the 10 hottest posts, can change to what we want later
-    cur_subreddit = reddit.subreddit(subreddit_name).hot(limit=10000)
+    cur_subreddit = reddit.subreddit(subreddit_name).top(limit=10)
     # Loop over each post in the current subreddit
     for post in cur_subreddit:
         # Store the data in dictionary
