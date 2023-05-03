@@ -1,0 +1,48 @@
+
+Start crawling subreddits...
+
+Started crawling subreddit: ucr
+Finished crawling subreddit: ucr
+Started crawling subreddit: ucmerced
+Finished crawling subreddit: ucmerced
+Started crawling subreddit: ucla
+Finished crawling subreddit: ucla
+Started crawling subreddit: UCDavis
+Finished crawling subreddit: UCDavis
+Started crawling subreddit: berkely
+Finished crawling subreddit: berkely
+Started crawling subreddit: UCSD
+Finished crawling subreddit: UCSD
+Started crawling subreddit: UCSantaBarbara
+Finished crawling subreddit: UCSantaBarbara
+Started crawling subreddit: UCSC
+Finished crawling subreddit: UCSC
+Started crawling subreddit: UCI
+Finished crawling subreddit: UCI
+Started crawling subreddit: UofCalifornia
+Finished crawling subreddit: UofCalifornia
+Started crawling subreddit: CSULB
+Finished crawling subreddit: CSULB
+Started crawling subreddit: CSULA
+Finished crawling subreddit: CSULA
+Started crawling subreddit: csuf
+Finished crawling subreddit: csuf
+
+Finished crawling subreddits...
+
+Start writing to files...
+
+File Data/fileNum0.json size: 0.99 MB
+File Data/fileNum1.json size: 1.00 MB
+File Data/fileNum2.json size: 0.99 MB
+File Data/fileNum3.json size: 1.00 MB
+File Data/fileNum4.json size: 0.99 MB
+File Data/fileNum5.json size: 1.02 MB
+File Data/fileNum6.json size: 0.99 MB
+File Data/fileNum7.json size: 1.02 MB
+File Data/fileNum8.json size: 0.99 MB
+File Data/fileNum9.json size: 1.02 MB
+
+Done writing to files...
+
+10.07 MB of data stored in 10 files

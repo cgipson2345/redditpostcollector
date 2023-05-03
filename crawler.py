@@ -5,6 +5,9 @@ import praw                     # for accessing Reddit API
 import requests                 # for making HTTP requests
 import os                       # for files
 
+# Constants
+MB = 1024*1024 # 1MB
+
 # Reddit credentials to crawl the website
 reddit = praw.Reddit(client_id='BVN377aTHCSupxRmvJxRcA',
                      client_secret='Nd-gzmX0P8vkdF8YGG0ebZaU26Z8kQ',
@@ -13,27 +16,21 @@ reddit = praw.Reddit(client_id='BVN377aTHCSupxRmvJxRcA',
                      password='crawling21')
 
 # Subreddits to crawl
-subreddits = ['ucr'] # Can add more subreddits later
+subreddits = ['ucr','ucmerced','ucla','UCDavis','berkely','UCSD',
+              'UCSantaBarbara','UCSC','UCI','UofCalifornia',
+              'CSULB','CSULA','csuf'] # Can add more subreddits later
 
-# Filename to hold posts
-# Still need code to collect at least 500MB of raw data, ~10MB per file
-filename = 'posts.json'
-# Try to open file to write data
-try:
-    if os.path.exists(filename):
-        os.remove(filename)
-    file = open(filename, 'w')
-# Failed to open file
-except Exception as e:
-    print('ERROR: Failed to open file {}: {}'.format(filename, e))
-    
-
+# Delete all files in the Data folder
+for file_name in os.listdir("Data"):
+    os.remove(os.path.join("Data", file_name))
 
 # Posts list to hold each post's data
 posts = list()
 
 # Go through each subreddit
+print("\nStart crawling subreddits...\n")
 for subreddit_name in subreddits:
+    print("Started crawling subreddit:",subreddit_name)
     # Currently grabs the 10 hottest posts, can change to what we want later
     cur_subreddit = reddit.subreddit(subreddit_name).hot(limit=10)
     # Loop over each post in the current subreddit
@@ -64,17 +61,47 @@ for subreddit_name in subreddits:
                 print('ERROR: Failed to retrieve page title for {}: {}'.format(post.url, e))
         # Append the current data to the current post
         posts.append(post_data)
-# Write data into file
-with file as f:
-    # Get each post's data
+    print("Finished crawling subreddit:",subreddit_name)
+print("\nFinished crawling subreddits...")
+
+# Current file that is written too
+file_number = 0
+#currently set file to 1 mb and raw data to 10 mb for testing
+min_file_size = 1 * MB  # File size
+min_data_size = 10 * MB  # Raw data size
+#this tests current file size
+data = []
+running_total = 0
+
+print("\nStart writing to files...\n")
+# Write to files until the minimum amount of data is passed
+while running_total <= min_data_size:
+    # Go through each post
     for post_data in posts:
-        # Write JSON data
-        json.dump(post_data, f)
-        # One post per row
-        f.write('\n')
-# Try to close file
-try:
-    file.close()
-# Failed to close file
-except Exception as e:
-    print('ERROR: Failed to close file {}: {}'.format(filename, e))
+        if len(json.dumps(data)) >= min_file_size:
+            filename = f"Data/fileNum{file_number}.json"
+            with open(filename,"w") as f:
+                for d in data:
+                    json.dump(d, f)
+                    f.write('\n')
+                file_size_mb = os.path.getsize(filename) / MB
+                print(f"File {filename} size: {file_size_mb:.2f} MB")
+            # Increase the file number and clear the data list
+            file_number += 1
+            data = []
+        # Append the current data to the data list
+        data.append(post_data)
+        #print(json.dumps(data))
+        running_total += len(json.dumps(post_data))
+
+        # Write the remaining data into the last file
+        if data and sum(os.path.getsize(f"Data/{f}") for f in os.listdir("Data")) >= min_data_size:
+            filename = f"Data/fileNum{file_number}.json"
+            with open(filename, "w") as f:
+                for d in data:
+                    json.dump(d, f)
+                    f.write('\n')
+            # Clear the data list
+            data = []
+print("\nDone writing to files...\n")
+print(f"{(running_total)/MB:.2f} MB of data stored in {file_number} files")
