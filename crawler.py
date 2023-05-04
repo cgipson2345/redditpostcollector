@@ -52,22 +52,22 @@ for subreddit_name in subreddits:
                 'url': post.url,                # Image in post
                 'permalink': post.permalink,    # URL of post
             }
-        # If a post contains a URL to an html page, get title of that page, and add title as an additional field of the post, 
-        # that is, include it in the JSON of the post, so it becomes searchable in Part B.
-        if post.url.endswith('.html'):
-            # Try to get the URL in the post
-            try:
-                # Send request to the post URL, skips if 10 seconds pass
-                response = requests.get(post.url, timeout=10)
-                # Parse using BeautifulSoup
-                soup = BeautifulSoup(response.content, 'html.parser')
-                # Add the URL's title to the post's data
-                post_data['page_title'] = soup.title.string
-            # Failed to get the URL
-            except Exception as e:
-                print('\tERROR: Failed to retrieve page title for {}: {}'.format(post.url, e))
-        # Append the current data to the current post
-        posts.append(post_data)
+            # If a post contains a URL to an html page, get title of that page, and add title as an additional field of the post, 
+            # that is, include it in the JSON of the post, so it becomes searchable in Part B.
+            if post.url.endswith('.html'):
+                # Try to get the URL in the post
+                try:
+                    # Send request to the post URL, skips if 10 seconds pass
+                    response = requests.get(post.url, timeout=10)
+                    # Parse using BeautifulSoup
+                    soup = BeautifulSoup(response.content, 'html.parser')
+                    # Add the URL's title to the post's data
+                    post_data['page_title'] = soup.title.string
+                # Failed to get the URL
+                except Exception as e:
+                    print('\tERROR: Failed to retrieve page title for {}: {}'.format(post.url, e))
+            # Append the current data to the current post
+            posts.append(post_data)
     print("\tFinished crawling subreddit:",subreddit_name)
 print("Finished crawling subreddits...")
 
