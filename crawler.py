@@ -4,6 +4,7 @@ import json                     # for encoding data in JSON format
 import praw                     # for accessing Reddit API
 import requests                 # for making HTTP requests
 import os                       # for files
+import re                       # Regex
 
 # Constants
 MB = 1024*1024 # 1MB
@@ -26,6 +27,7 @@ for file_name in os.listdir("Data"):
 
 # Posts list to hold each post's data
 posts = list()
+requested_posts = 10
 
 # Create set to store post ids
 seen_ids = set()
@@ -33,9 +35,10 @@ seen_ids = set()
 # Go through each subreddit
 print("\nStart crawling subreddits...")
 for subreddit_name in subreddits:
-    print("\tStarted crawling subreddit:",subreddit_name)
+    print(f"\tStarted crawling subreddit: {subreddit_name}")
     # Currently grabs the 10 hottest posts, can change to what we want later
-    cur_subreddit = reddit.subreddit(subreddit_name).hot(limit=10)
+    cur_subreddit = reddit.subreddit(subreddit_name).hot(limit=requested_posts)
+    print(f"\t\tAttempting to grab {requested_posts} posts")
     # Loop over each post in the current subreddit
     for post in cur_subreddit:
         # Check if post id is in the seen_ids set
@@ -66,8 +69,38 @@ for subreddit_name in subreddits:
                 # Failed to get the URL
                 except Exception as e:
                     print('\tERROR: Failed to retrieve page title for {}: {}'.format(post.url, e))
+            # Get the comments
+            post.comments.replace_more(limit=None)
+            post_data['comments'] = []
+            # Loop through the comments
+            print(f"\t\tAttempting to grab {len(post.comments.list())} comments")
+            for comment in post.comments.list():
+                # Store the comment data in a dictionary
+                comment_data = {
+                    'id': comment.id,
+                    'body': comment.body,
+                    'score': comment.score,
+                    'author': str(comment.author),
+                }
+                # Check if the comment contains a URL
+                urls = re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', comment.body)
+                if urls:
+                    # Try to get the URL in the comment
+                    try:
+                        # Send request to the comment URL, skips if 10 seconds pass
+                        response = requests.get(urls[0], timeout=10)
+                        # Parse using BeautifulSoup
+                        soup = BeautifulSoup(response.content, 'html.parser')
+                        # Add the URL's title to the comment's data
+                        comment_data['page_title'] = soup.title.string
+                    # Failed to get the URL
+                    except Exception as e:
+                        print('\tERROR: Failed to retrieve page title for {}: {}'.format(urls[0], e))
+                # Append the current comment data to the post's comments list
+                post_data['comments'].append(comment_data)
             # Append the current data to the current post
             posts.append(post_data)
+        # Post already seen so move on through for loop
     print("\tFinished crawling subreddit:",subreddit_name)
 print("Finished crawling subreddits...")
 
@@ -75,7 +108,7 @@ print("Finished crawling subreddits...")
 file_number = 0
 #currently set file to 1 mb and raw data to 10 mb for testing
 min_file_size = 1 * MB  # File size
-min_data_size = 5 * MB  # Raw data size
+min_data_size = 10 * MB  # Raw data size
 #this tests current file size
 data = []
 running_total = 0
