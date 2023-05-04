@@ -27,6 +27,9 @@ for file_name in os.listdir("Data"):
 # Posts list to hold each post's data
 posts = list()
 
+# Create set to store post ids
+seen_ids = set()
+
 # Go through each subreddit
 print("\nStart crawling subreddits...\n")
 for subreddit_name in subreddits:
@@ -59,8 +62,12 @@ for subreddit_name in subreddits:
             # Failed to get the URL
             except Exception as e:
                 print('ERROR: Failed to retrieve page title for {}: {}'.format(post.url, e))
-        # Append the current data to the current post
-        posts.append(post_data)
+        # Check if post id is in the seen_ids set
+        if post.id not in seen_ids:
+            # Append the current data to the current post
+            posts.append(post_data)
+            # Add post id to seen_ids set
+            seen_ids.add(post.id)
     print("Finished crawling subreddit:",subreddit_name)
 print("\nFinished crawling subreddits...")
 
@@ -93,7 +100,6 @@ while running_total <= min_data_size:
         data.append(post_data)
         #print(json.dumps(data))
         running_total += len(json.dumps(post_data))
-
         # Write the remaining data into the last file
         if data and sum(os.path.getsize(f"Data/{f}") for f in os.listdir("Data")) >= min_data_size:
             filename = f"Data/fileNum{file_number}.json"
