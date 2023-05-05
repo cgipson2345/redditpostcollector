@@ -1,0 +1,234 @@
+Started with subreddits sorted by hot:
+        Started crawling subreddit: ucr
+                Attempting to grab 10 posts
+                        Attempting to grab 19 comments
+                        Attempting to grab 18 comments
+                        Attempting to grab 6 comments
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://i.imgur.com/Z4tga04.jpg): 'NoneType' object has no attribute 'string'
+                        Attempting to grab 3 comments
+                        Attempting to grab 2 comments
+                        Attempting to grab 6 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 1 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 0 comments
+        Finished crawling subreddit: ucr
+        Started crawling subreddit: ucmerced
+                Attempting to grab 10 posts
+                        Attempting to grab 1 comments
+                        Attempting to grab 5 comments
+                        Attempting to grab 5 comments
+                        Attempting to grab 1 comments
+                        Attempting to grab 5 comments
+                        Attempting to grab 5 comments
+                        Attempting to grab 9 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 1 comments
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for http://gamahucherpress.yellowgum.com/wp-content/uploads/Anthia-and-Habrocomes.pdf: 'NoneType' object has no attribute 'string'
+                        Attempting to grab 16 comments
+        Finished crawling subreddit: ucmerced
+        Started crawling subreddit: ucla
+                Attempting to grab 10 posts
+                        Attempting to grab 0 comments
+                        Attempting to grab 920 comments
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://www.seasoasa.ucla.edu/wp-content/uploads/seasoasa/2022-UCEE-Report.pdf): 'NoneType' object has no attribute 'string'
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://economics.ucla.edu/wp-content/uploads/2020/08/7-8-Econ-Major-Requirements-2020-2021.pdf).: 'NoneType' object has no attribute 'string'
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://economics.ucla.edu/wp-content/uploads/2016/09/8-9-Bus-Econ-Major-Requirement-2016-2017.pdf): 'NoneType' object has no attribute 'string'
+                        ERROR: Failed to retrieve page title for https://www.reddit.com/r/haikusbot/): 'NoneType' object has no attribute 'string'
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://www.seasoasa.ucla.edu/wp-content/uploads/seasoasa/2022-UCEE-Report.pdf: 'NoneType' object has no attribute 'string'
+                        ERROR: Failed to retrieve page title for https://Roomble.org): HTTPSConnectionPool(host='roomble.org)', port=443): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x109fd8310>: Failed to establish a new connection: [Errno 8] nodename nor servname provided, or not known'))
+                        ERROR: Failed to retrieve page title for https://Roomble.org): HTTPSConnectionPool(host='roomble.org)', port=443): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x10a48e3d0>: Failed to establish a new connection: [Errno 8] nodename nor servname provided, or not known'))
+                        Attempting to grab 49 comments
+                        Attempting to grab 5 comments
+                        Attempting to grab 14 comments
+                        Attempting to grab 2 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 3 comments
+                        Attempting to grab 1 comments
+                        Attempting to grab 8 comments
+        Finished crawling subreddit: ucla
+        Started crawling subreddit: UCDavis
+                Attempting to grab 10 posts
+                        Attempting to grab 210 comments
+                        Attempting to grab 6 comments
+                        Attempting to grab 21 comments
+                        Attempting to grab 16 comments
+                        Attempting to grab 5 comments
+                        Attempting to grab 64 comments
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://scholarworks.sjsu.edu/cgi/viewcontent.cgi?article=1027&context=themis: 'NoneType' object has no attribute 'string'
+                        Attempting to grab 33 comments
+                        Attempting to grab 26 comments
+                        ERROR: Failed to retrieve page title for https://www.sacbee.com/news/local/crime/article275012191.html: HTTPSConnectionPool(host='www.sacbee.com', port=443): Read timed out. (read timeout=10)
+                        Attempting to grab 13 comments
+                        Attempting to grab 1 comments
+        Finished crawling subreddit: UCDavis
+        Started crawling subreddit: berkely
+                Attempting to grab 10 posts
+                        Attempting to grab 0 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 1 comments
+                        ERROR: Failed to retrieve page title for https://imgur.com/4E7OdAR): 'NoneType' object has no attribute 'string'
+                        Attempting to grab 1 comments
+                        ERROR: Failed to retrieve page title for https://imgur.com/mpXs6f2): 'NoneType' object has no attribute 'string'
+                        Attempting to grab 0 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 4 comments
+        Finished crawling subreddit: berkely
+        Started crawling subreddit: UCSD
+                Attempting to grab 10 posts
+                        Attempting to grab 1789 comments
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://preview.redd.it/d38uz82nefoa1.png?width=749&format=png&auto=webp&v=enabled&s=d2cb04a4f4822e540b39aa6e992d416216eb7293: 'NoneType' object has no attribute 'string'
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://preview.redd.it/gn501osmg7ra1.jpeg?width=1170&format=pjpg&auto=webp&v=enabled&s=e77fee282a7d495da2719aabeeb1037447dded06: 'NoneType' object has no attribute 'string'
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://preview.redd.it/j08kyxwx3rwa1.png?width=1347&format=png&auto=webp&v=enabled&s=613c5dd4b8fa1ef8e7a6af4f97cf6be331bb2be0: 'NoneType' object has no attribute 'string'
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://preview.redd.it/7mfdd0f8lrwa1.png?width=889&format=png&auto=webp&v=enabled&s=329f07b9568711278a6a1d227e6764565daea879: 'NoneType' object has no attribute 'string'
+                        ERROR: Failed to retrieve page title for https://redd.it/hcqnpx): 'NoneType' object has no attribute 'string'
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://catalog.ucsd.edu/_files/advanced-placement-credit-chart.pdf: 'NoneType' object has no attribute 'string'
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://preview.redd.it/leckg8nsrzra1.jpeg?width=1170&format=pjpg&auto=webp&v=enabled&s=00b08bc60bb2f57b8d1a0e16b10f8fe01fa30f8a: 'NoneType' object has no attribute 'string'
+                        ERROR: Failed to retrieve page title for https://redd.it/hcqnpx): 'NoneType' object has no attribute 'string'
+                        ERROR: Failed to retrieve page title for https://www.usnews.com/best-colleges/rankings/computer-science/biocomputing-bioinformatics-biotechnology: HTTPSConnectionPool(host='www.usnews.com', port=443): Read timed out. (read timeout=10)
+                        ERROR: Failed to retrieve page title for https://VAC.ucsd.edu): HTTPSConnectionPool(host='vac.ucsd.edu)', port=443): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x1192a1400>: Failed to establish a new connection: [Errno 8] nodename nor servname provided, or not known'))
+                        ERROR: Failed to retrieve page title for https://redd.it/hcqnpx): 'NoneType' object has no attribute 'string'
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://www.ucsd.edu/catalog/pdf/APC-chart.pdf: 'NoneType' object has no attribute 'string'
+                        ERROR: Failed to retrieve page title for https://redd.it/hcqnpx): 'NoneType' object has no attribute 'string'
+                        ERROR: Failed to retrieve page title for https://redd.it/hcqnpx): 'NoneType' object has no attribute 'string'
+                        ERROR: Failed to retrieve page title for https://redd.it/hcqnpx): 'NoneType' object has no attribute 'string'
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://preview.redd.it/lde2utykhkoa1.png?width=2880&format=png&auto=webp&v=enabled&s=53b677fb5885c36e5d7b4080fe46ec0ea046b303: 'NoneType' object has no attribute 'string'
+                        ERROR: Failed to retrieve page title for https://redd.it/hcqnpx): 'NoneType' object has no attribute 'string'
+                        ERROR: Failed to retrieve page title for https://redd.it/hcqnpx): 'NoneType' object has no attribute 'string'
+                        ERROR: Failed to retrieve page title for https://redd.it/hcqnpx): 'NoneType' object has no attribute 'string'
+                        ERROR: Failed to retrieve page title for https://redd.it/hcqnpx): 'NoneType' object has no attribute 'string'
+                        ERROR: Failed to retrieve page title for https://redd.it/hcqnpx): 'NoneType' object has no attribute 'string'
+                        ERROR: Failed to retrieve page title for https://redd.it/hcqnpx): 'NoneType' object has no attribute 'string'
+                        Attempting to grab 7 comments
+                        Attempting to grab 4 comments
+                        Attempting to grab 8 comments
+                        Attempting to grab 4 comments
+                        Attempting to grab 3 comments
+                        Attempting to grab 1 comments
+                        Attempting to grab 6 comments
+                        Attempting to grab 11 comments
+                        Attempting to grab 3 comments
+        Finished crawling subreddit: UCSD
+        Started crawling subreddit: UCSantaBarbara
+                Attempting to grab 10 posts
+                        Attempting to grab 1 comments
+                        Attempting to grab 26 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 1 comments
+                        Attempting to grab 4 comments
+                        Attempting to grab 13 comments
+                        Attempting to grab 4 comments
+                        Attempting to grab 3 comments
+                        Attempting to grab 148 comments
+        Finished crawling subreddit: UCSantaBarbara
+        Started crawling subreddit: UCSC
+                Attempting to grab 10 posts
+                        Attempting to grab 509 comments
+                        ERROR: Failed to retrieve page title for https://www.roomies.com/rooms/253237](https://www.roomies.com/rooms/253237): HTTPSConnectionPool(host='www.roomies.com', port=443): Max retries exceeded with url: /rooms/253237%5D(https://www.roomies.com/rooms/253237) (Caused by SSLError(SSLError(1, '[SSL: TLSV1_ALERT_PROTOCOL_VERSION] tlsv1 alert protocol version (_ssl.c:1129)')))
+                        Attempting to grab 231 comments
+                        ERROR: Failed to retrieve page title for https://mobile.twitter.com/SpreadtheStrike/status/1235561321480904706: 'NoneType' object has no attribute 'string'
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://i.imgur.com/34BgfVI.png): 'NoneType' object has no attribute 'string'
+                        Attempting to grab 16 comments
+                        Attempting to grab 10 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 2 comments
+                        Attempting to grab 27 comments
+                        ERROR: Failed to retrieve page title for https://imgur.com/a/qk4apc8).: 'NoneType' object has no attribute 'string'
+                        Attempting to grab 0 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 1 comments
+        Finished crawling subreddit: UCSC
+        Started crawling subreddit: UCI
+                Attempting to grab 10 posts
+                        Attempting to grab 49 comments
+                        ERROR: Failed to retrieve page title for https://ASP.NET): HTTPSConnectionPool(host='asp.net)', port=443): Max retries exceeded with url: / (Caused by NewConnectionError('<urllib3.connection.HTTPSConnection object at 0x11c2706a0>: Failed to establish a new connection: [Errno 8] nodename nor servname provided, or not known'))
+                        Attempting to grab 7 comments
+                        Attempting to grab 1 comments
+                        Attempting to grab 4 comments
+Some characters could not be decoded, and were replaced with REPLACEMENT CHARACTER.
+                        ERROR: Failed to retrieve page title for https://preview.redd.it/km2pap9m0txa1.jpeg?width=853&format=pjpg&auto=webp&v=enabled&s=9c476991c8698b712084c991a38c0191f5a1dc18: 'NoneType' object has no attribute 'string'
+                        Attempting to grab 6 comments
+                        Attempting to grab 2 comments
+                        Attempting to grab 4 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 47 comments
+                        Attempting to grab 0 comments
+        Finished crawling subreddit: UCI
+        Started crawling subreddit: UofCalifornia
+                Attempting to grab 10 posts
+                        Attempting to grab 1 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 4 comments
+                        Attempting to grab 3 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 1 comments
+        Finished crawling subreddit: UofCalifornia
+        Started crawling subreddit: CSULB
+                Attempting to grab 10 posts
+                        Attempting to grab 27 comments
+                        Attempting to grab 29 comments
+                        Attempting to grab 2 comments
+                        Attempting to grab 8 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 3 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 1 comments
+                        Attempting to grab 2 comments
+        Finished crawling subreddit: CSULB
+        Started crawling subreddit: CSULA
+                Attempting to grab 10 posts
+                        Attempting to grab 2 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 1 comments
+                        Attempting to grab 1 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 2 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 1 comments
+        Finished crawling subreddit: CSULA
+        Started crawling subreddit: csuf
+                Attempting to grab 10 posts
+                        Attempting to grab 10 comments
+                        Attempting to grab 15 comments
+                        Attempting to grab 0 comments
+                        Attempting to grab 45 comments
+                        Attempting to grab 1 comments
+                        Attempting to grab 1 comments
+                        Attempting to grab 23 comments
+                        Attempting to grab 1 comments
+                        Attempting to grab 4 comments
+                        Attempting to grab 4 comments
+        Finished crawling subreddit: csuf
+Finished crawling subreddits sorted by hot
+
+Start writing to files...
+
+        Data/fileNum0.json size: 1.16 MB
+
+Done writing to files...
+
+1.61 MB of data stored in 1 files

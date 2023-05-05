@@ -3,7 +3,19 @@ from bs4 import BeautifulSoup   # for parsing HTML documents
 import json                     # for encoding data in JSON format
 import praw                     # for accessing Reddit API
 import requests                 # for making HTTP requests
-import os                       # for files
+import os                       # for file checking
+import re                       # for regex
+
+
+# Constants
+MB = 1024*1024 # 1MB
+
+# File Handling
+file_number = 0         # Num. of files created
+cur_data_size = 0       # Total amount of data written
+min_file_size = 10 * MB  # Files should be around 10 MB
+min_data_size = 10 * MB # Total amount of data written should be around 500MB
+data = []               # Holds data to write to file
 
 # Reddit credentials to crawl the website
 reddit = praw.Reddit(client_id='BVN377aTHCSupxRmvJxRcA',
@@ -13,110 +25,134 @@ reddit = praw.Reddit(client_id='BVN377aTHCSupxRmvJxRcA',
                      password='crawling21')
 
 # Subreddits to crawl
-subreddits = ['DataIsBeautiful'] # Can add more subreddits later
+subreddits = ['ucr','ucmerced','ucla','UCDavis','berkeley','UCSD',
+              'UCSantaBarbara','UCSC','UCI','UofCalifornia',
+              'CSULB','CSULA','csuf'] # Can add more subreddits later
 
-# Posts list to hold each post's data
-posts = list()
+# Reddit's sorting options
+sorting_options = ['top'] # 'top','controversial','rising','new
+
+# Posts
+requested_posts = 20   # Amount of posts to grab each request
+posts = list()          # Holds the amount of posts grabbed
+seen_ids = set()        # Holds the id's of posts already grabbed
+
+
+
+# Delete all files in the Data folder
+for file_name in os.listdir("Data"):
+    os.remove(os.path.join("Data", file_name))
 
 # Go through each subreddit
-for subreddit_name in subreddits:
-    # Currently grabs the 10 hottest posts, can change to what we want later
-    cur_subreddit = reddit.subreddit(subreddit_name).hot(limit=10000)
-    # Loop over each post in the current subreddit
-    for post in cur_subreddit:
-        # Store the data in dictionary
-        post_data = {
-            'subreddit': subreddit_name,    # Subreddit's name
-            'body': post.selftext,          # Body
-            'title': post.title,            # Title
-            'id': post.id,                  # Id
-            'score': post.score,            # Upvotes
-            'url': post.url,                # Image in post
-            'permalink': post.permalink,    # URL of post
-        }
-        # If a post contains a URL to an html page, get title of that page, and add title as an additional field of the post, 
-        # that is, include it in the JSON of the post, so it becomes searchable in Part B.
-        if post.url.endswith('.html'):
-            # Try to get the URL in the post
-            try:
-                # Send request to the post URL
-                response = requests.get(post.url)
-                # Parse using BeautifulSoup
-                soup = BeautifulSoup(response.content, 'html.parser')
-                # Add the URL's title to the post's data
-                post_data['page_title'] = soup.title.string
-            # Failed to get the URL
-            except Exception as e:
-                print('ERROR: Failed to retrieve page title for {}: {}'.format(post.url, e))
-        # Append the current data to the current post
-        posts.append(post_data)
+for sorting_option in sorting_options:
+    print(f"\nStarted with subreddits sorted by {sorting_option}:")
+    for subreddit_name in subreddits:
+        # Attempts to grab the requested amount of posts
+        cur_subreddit = getattr(reddit.subreddit(subreddit_name), sorting_option)(limit=requested_posts)
+        print(f"\tStarted crawling subreddit: {subreddit_name}")
+        print(f"\t\tAttempting to grab {requested_posts} posts")
+        # Loop over each post in the current subreddit
+        for post in cur_subreddit:
+            # Check if post id is in the seen_ids set
+            if post.id not in seen_ids:
+                # Add post id to seen_ids set
+                seen_ids.add(post.id)
+                # Store the data in dictionary
+                post_data = {
+                    'subreddit': subreddit_name,    # Subreddit's name
+                    'body': post.selftext,          # Body
+                    'title': post.title,            # Title
+                    'id': post.id,                  # Id
+                    'score': post.score,            # Upvotes
+                    'url': post.url,                # Image in post
+                    'permalink': post.permalink,    # URL of post
+                    'author': str(post.author),     # Username
+                }
+                # If a post contains a URL to an html page, get title of that page, and add title as an additional field of the post, 
+                # that is, include it in the JSON of the post, so it becomes searchable in Part B.
+                if post.url.endswith('.html'):
+                    # Try to get the URL in the post
+                    try:
+                        # Send request to the post URL, skips if 10 seconds pass
+                        response = requests.get(post.url, timeout=10)
+                        # Parse using BeautifulSoup
+                        soup = BeautifulSoup(response.content, 'html.parser')
+                        # Add the URL's title to the post's data
+                        post_data['page_title'] = soup.title.string
+                    # Failed to get the URL
+                    except Exception as e:
+                        print('\t\tERROR: Failed to retrieve page title for {}: {}'.format(post.url, e))
+                # Get the comments
+                post.comments.replace_more(limit=0) #replacing None with 10
+                
+                post_data['comments'] = []
+                # Loop through the comments
+                print(f"\t\t\tAttempting to grab {len(post.comments)} comments") # was .list()
+                for comment in post.comments: #was .list()
+                    # Store the comment data in a dictionary
+                    comment_data = {
+                        'id': comment.id,
+                        'body': comment.body,
+                        'score': comment.score,
+                        'author': str(comment.author),
+                    }
+                    # Check if the comment contains a URL
+                    urls = re.findall(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', comment.body)
+                    # Go through urls if it exists
+                    if urls:
+                        # Try to get the URL in the comment
+                        try:
+                            # Send request to the comment URL, skips if 10 seconds pass
+                            response = requests.get(urls[0], timeout=10)
+                            # Parse using BeautifulSoup
+                            soup = BeautifulSoup(response.content, 'html.parser')
+                            # Add the URL's title to the comment's data
+                            comment_data['page_title'] = soup.title.string
+                        # Failed to get the URL
+                        except Exception as e:
+                            print('\t\t\tERROR: Failed to retrieve page title for {}: {}'.format(urls[0], e))
+                    # Append the current comment data to the post's dictionary
+                    post_data['comments'].append(comment_data)
+                # Append the current data to the current post
+                posts.append(post_data)
+            # Post already seen so move on through for loop
+        print("\tFinished crawling subreddit:",subreddit_name)
+    print(f"Finished crawling subreddits sorted by {sorting_option}")
 
-file_number = 0
-#currently set to 1 mb for testing
-file_size = 1024*1024
-#this tests current file size
-data = []
-#this tests the total size so far
-data2 = []
+print("\nStart writing to files...\n")
+# Write to files until end of posts
+# Go through each post
+for post_data in posts:
+    if len(json.dumps(data)) >= min_file_size:
+        filename = f"Data/fileNum{file_number}.json"
+        file_number += 1
+        with open(filename,"w") as f:
+            for d in data:
+                json.dump(d, f)
+                f.write('\n')
+            f.flush()    
+            file_size_mb = os.path.getsize(filename) / MB
+            print(f"\t{filename} size: {file_size_mb:.2f} MB")
+        # Clear the data list
+        data = []
+    # Append the current data to the data list
+    data.append(post_data)
+    #print(json.dumps(data))
+    cur_data_size += len(json.dumps(post_data))
+    # Write the remaining data into the last file
+
+if (data):
+    filename = f"Data/fileNum{file_number}.json"
+    file_number += 1
+    with open(filename, "w") as f:
+        for d in data:
+            json.dump(d, f)
+            f.write('\n')
+        f.flush()
+        # Clear the data list
+    data = []
+
+print("\nDone writing to files...\n")
+print(f"{(cur_data_size)/MB:.2f} MB of data stored in {file_number} files")
 
 
-
-while len(data2) <= 5*1024*1024:
-    for post_data in posts:
-        if len(json.dumps(data)) >= file_size:
-            filename = f"fileNum{file_number}.json"
-            with open(filename,"w") as f:
-                for d in data:
-                    json.dump(d, f)
-                    f.write('\n')
-            # Increase the file number and clear the data list
-            file_number += 1
-            data = []
-            data2 = []
-        # Append the current data to the data list
-        data.append(post_data)
-        print(json.dumps(data))
-
-        # Write the remaining data into the last file
-        if data:
-            filename = f"fileNum{file_number}.json"
-            with open(filename, "w") as f:
-                for d in data:
-                    json.dump(d, f)
-                    f.write('\n')
-#  file_number = 0
-#  data = []
-#  count = 0
-#  # Filename to hold posts
-#  # Still need code to collect at least 500MB of raw data, ~10MB per file
-#  filename = "fileNum"+ str(file_number)+".json"
-#  # Try to open file to write data
-#  try:
-#     if os.path.exists(filename):
-#          os.remove(filename)
-#     file = open(filename, 'w')
-#  # Failed to open file
-#  except Exception as e:
-#      print('ERROR: Failed to open file {}: {}'.format(filename, e))
-    
-
-
-#  # Write data into file
-#  with file as f:
-#      print(count)
-#      count = count + 1
-#      # Get each post's data
-#      for post_data in posts:
-#         # if len(data) >= file_size:
-#         #    break
-#          # Write JSON data
-#          json.dump(post_data, f)
-#          data.append(post_data)
-#          # One post per row
-#          f.write('\n')
-#  # Try to close file
-#  try:
-#      file.close()
-#  # Failed to close file
-#  except Exception as e:
-#      print('ERROR: Failed to close file {}: {}'.format(filename, e))
