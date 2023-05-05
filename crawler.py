@@ -6,8 +6,9 @@ import requests                 # for making HTTP requests
 import os                       # for file checking
 import re                       # for regex
 
+
 # Constants
-MB = 1024*1024 # 1MB
+MB = 1024*1024*10 # 10MB
 
 # File Handling
 file_number = 0         # Num. of files created
@@ -63,6 +64,7 @@ for sorting_option in sorting_options:
                     'score': post.score,            # Upvotes
                     'url': post.url,                # Image in post
                     'permalink': post.permalink,    # URL of post
+                    'author': str(post.author),     # Username
                 }
                 # If a post contains a URL to an html page, get title of that page, and add title as an additional field of the post, 
                 # that is, include it in the JSON of the post, so it becomes searchable in Part B.
@@ -79,7 +81,7 @@ for sorting_option in sorting_options:
                     except Exception as e:
                         print('\t\tERROR: Failed to retrieve page title for {}: {}'.format(post.url, e))
                 # Get the comments
-                post.comments.replace_more(limit=None)
+                post.comments.replace_more(limit=10) #replacing None with 10
                 post_data['comments'] = []
                 # Loop through the comments
                 print(f"\t\t\tAttempting to grab {len(post.comments.list())} comments")
