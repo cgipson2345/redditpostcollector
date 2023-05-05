@@ -37,6 +37,8 @@ requested_posts = 20   # Amount of posts to grab each request
 posts = list()          # Holds the amount of posts grabbed
 seen_ids = set()        # Holds the id's of posts already grabbed
 
+
+
 # Delete all files in the Data folder
 for file_name in os.listdir("Data"):
     os.remove(os.path.join("Data", file_name))
@@ -152,3 +154,5 @@ if (data):
 
 print("\nDone writing to files...\n")
 print(f"{(cur_data_size)/MB:.2f} MB of data stored in {file_number} files")
+
+
