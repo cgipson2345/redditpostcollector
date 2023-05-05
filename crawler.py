@@ -8,7 +8,7 @@ import re                       # for regex
 
 
 # Constants
-MB = 1024*1024*10 # 10MB
+MB = 1024*1024 # 1MB
 
 # File Handling
 file_number = 0         # Num. of files created
@@ -30,10 +30,10 @@ subreddits = ['ucr','ucmerced','ucla','UCDavis','berkely','UCSD',
               'CSULB','CSULA','csuf'] # Can add more subreddits later
 
 # Reddit's sorting options
-sorting_options = ['hot'] # 'top','controversial','rising','new
+sorting_options = ['top'] # 'top','controversial','rising','new
 
 # Posts
-requested_posts = 10    # Amount of posts to grab each request
+requested_posts = 20   # Amount of posts to grab each request
 posts = list()          # Holds the amount of posts grabbed
 seen_ids = set()        # Holds the id's of posts already grabbed
 
@@ -81,7 +81,7 @@ for sorting_option in sorting_options:
                     except Exception as e:
                         print('\t\tERROR: Failed to retrieve page title for {}: {}'.format(post.url, e))
                 # Get the comments
-                post.comments.replace_more(limit=10) #replacing None with 10
+                post.comments.replace_more(limit=3) #replacing None with 10
                 post_data['comments'] = []
                 # Loop through the comments
                 print(f"\t\t\tAttempting to grab {len(post.comments.list())} comments")
@@ -137,14 +137,17 @@ for post_data in posts:
     #print(json.dumps(data))
     cur_data_size += len(json.dumps(post_data))
     # Write the remaining data into the last file
-    if data and sum(os.path.getsize(f"Data/{f}") for f in os.listdir("Data")) >= min_data_size:
-        filename = f"Data/fileNum{file_number}.json"
-        with open(filename, "w") as f:
-            for d in data:
-                json.dump(d, f)
-                f.write('\n')
-            f.flush()
+
+if (data and sum(os.path.getsize(f"Data/{f}") for f in os.listdir("Data")) <= min_data_size and data and sum(os.path.getsize(f"Data/{f}") for f in os.listdir("Data")) > 0):
+    filename = f"Data/fileNum{file_number}.json"
+    file_number += 1
+    with open(filename, "w") as f:
+        for d in data:
+            json.dump(d, f)
+            f.write('\n')
+        f.flush()
         # Clear the data list
-        data = []
+    data = []
+
 print("\nDone writing to files...\n")
 print(f"{(cur_data_size)/MB:.2f} MB of data stored in {file_number} files")
