@@ -13,7 +13,7 @@ MB = 1024*1024 # 1MB
 # File Handling
 file_number = 0         # Num. of files created
 cur_data_size = 0       # Total amount of data written
-min_file_size = 1 * MB  # Files should be around 10 MB
+min_file_size = 10 * MB  # Files should be around 10 MB
 min_data_size = 10 * MB # Total amount of data written should be around 500MB
 data = []               # Holds data to write to file
 
@@ -25,7 +25,7 @@ reddit = praw.Reddit(client_id='BVN377aTHCSupxRmvJxRcA',
                      password='crawling21')
 
 # Subreddits to crawl
-subreddits = ['ucr','ucmerced','ucla','UCDavis','berkely','UCSD',
+subreddits = ['ucr','ucmerced','ucla','UCDavis','berkeley','UCSD',
               'UCSantaBarbara','UCSC','UCI','UofCalifornia',
               'CSULB','CSULA','csuf'] # Can add more subreddits later
 
@@ -81,11 +81,12 @@ for sorting_option in sorting_options:
                     except Exception as e:
                         print('\t\tERROR: Failed to retrieve page title for {}: {}'.format(post.url, e))
                 # Get the comments
-                post.comments.replace_more(limit=3) #replacing None with 10
+                post.comments.replace_more(limit=0) #replacing None with 10
+                
                 post_data['comments'] = []
                 # Loop through the comments
-                print(f"\t\t\tAttempting to grab {len(post.comments.list())} comments")
-                for comment in post.comments.list():
+                print(f"\t\t\tAttempting to grab {len(post.comments)} comments") # was .list()
+                for comment in post.comments: #was .list()
                     # Store the comment data in a dictionary
                     comment_data = {
                         'id': comment.id,
@@ -138,7 +139,7 @@ for post_data in posts:
     cur_data_size += len(json.dumps(post_data))
     # Write the remaining data into the last file
 
-if (data and sum(os.path.getsize(f"Data/{f}") for f in os.listdir("Data")) <= min_data_size and data and sum(os.path.getsize(f"Data/{f}") for f in os.listdir("Data")) > 0):
+if (data):
     filename = f"Data/fileNum{file_number}.json"
     file_number += 1
     with open(filename, "w") as f:
