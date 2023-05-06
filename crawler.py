@@ -11,7 +11,10 @@ import re                       # for regex
 MB = 1024*1024 # 1MB
 
 # File Handling
-file_number = 0         # Num. of files created
+file_number = input("Input how many json files currently possessed")
+if(file_number < 0):
+    print("Error, negative number input, please try again.")
+    exit        # Num. of files created
 cur_data_size = 0       # Total amount of data written
 min_file_size = 10 * MB  # Files should be around 10 MB
 min_data_size = 10 * MB # Total amount of data written should be around 500MB
@@ -23,25 +26,38 @@ reddit = praw.Reddit(client_id='BVN377aTHCSupxRmvJxRcA',
                      user_agent='CS172:SPR23GROUP21:v0.1 (by u/wecrawling)',
                      username='wecrawling',
                      password='crawling21')
+test = False
+subreddits = []
+while(test!=True):
+    subreddits.append(input("Enter which subreddit you would like to crawl\n"));
+    if(input("Press Y for more subreddits and N to stop\n") == "N"):
+        test = True
 
-# Subreddits to crawl
-subreddits = ['ucr','ucmerced','ucla','UCDavis','berkeley','UCSD',
-              'UCSantaBarbara','UCSC','UCI','UofCalifornia',
-              'CSULB','CSULA','csuf'] # Can add more subreddits later
 
 # Reddit's sorting options
-sorting_options = ['top'] # 'top','controversial','rising','new
+test = False
+sorting_options = [] # 'top','controversial','rising','new
+while(test!=True):
+    sorting_options.append(input("Enter which sorting method to use\n"));
+    if(input("Press Y for more sorting options and N to stop\n") == "N"):
+        test = True
+
 
 # Posts
-requested_posts = 20   # Amount of posts to grab each request
+requested_posts = input("Enter amount of posts to grab on each request")
+if(requested_posts < 0):
+    print("Error, negative number input, please try again.")
+    exit
+
+# Amount of posts to grab each request
 posts = list()          # Holds the amount of posts grabbed
 seen_ids = set()        # Holds the id's of posts already grabbed
 
 
 
 # Delete all files in the Data folder
-for file_name in os.listdir("Data"):
-    os.remove(os.path.join("Data", file_name))
+#for file_name in os.listdir("Data"):
+#    os.remove(os.path.join("Data", file_name))
 
 # Go through each subreddit
 for sorting_option in sorting_options:
@@ -73,8 +89,8 @@ for sorting_option in sorting_options:
                 if post.url.endswith('.html'):
                     # Try to get the URL in the post
                     try:
-                        # Send request to the post URL, skips if 10 seconds pass
-                        response = requests.get(post.url, timeout=10)
+                        # Send request to the post URL, skips if 4 seconds pass
+                        response = requests.get(post.url, timeout=4)
                         # Parse using BeautifulSoup
                         soup = BeautifulSoup(response.content, 'html.parser')
                         # Add the URL's title to the post's data
@@ -102,8 +118,8 @@ for sorting_option in sorting_options:
                     if urls:
                         # Try to get the URL in the comment
                         try:
-                            # Send request to the comment URL, skips if 10 seconds pass
-                            response = requests.get(urls[0], timeout=10)
+                            # Send request to the comment URL, skips if 4 seconds pass
+                            response = requests.get(urls[0], timeout=4)
                             # Parse using BeautifulSoup
                             soup = BeautifulSoup(response.content, 'html.parser')
                             # Add the URL's title to the comment's data
