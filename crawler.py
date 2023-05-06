@@ -1,7 +1,7 @@
 # Libraries
 from bs4 import BeautifulSoup   # for parsing HTML documents
 import json                     # for encoding data in JSON format
-import praw                     # for accessing Reddit API
+import praw, prawcore           # for accessing Reddit API
 import requests                 # for making HTTP requests
 import os                       # for file checking
 import re                       # for regex
@@ -11,7 +11,7 @@ import re                       # for regex
 MB = 1024*1024 # 1MB
 
 # File Handling
-file_number = input("Input how many json files currently possessed")
+file_number = int(input("Input how many json files currently possessed\n"))
 if(file_number < 0):
     print("Error, negative number input, please try again.")
     exit        # Num. of files created
@@ -29,25 +29,44 @@ reddit = praw.Reddit(client_id='BVN377aTHCSupxRmvJxRcA',
 test = False
 subreddits = []
 while(test!=True):
-    subreddits.append(input("Enter which subreddit you would like to crawl\n"));
-    if(input("Press Y for more subreddits and N to stop\n") == "N"):
-        test = True
-
+    try:
+        subreddit = input("Enter which subreddit you would like to crawl\n").lower()
+        reddit.subreddits.search_by_name(subreddit, exact=True)
+        subreddits.append(subreddit)
+        if(input("Press Y for more subreddits and N to stop\n").lower() == "n"):
+            test = True
+    except prawcore.exceptions.NotFound:
+        print(f"{subreddit} does not exist.")
+        
 
 # Reddit's sorting options
 test = False
-sorting_options = [] # 'top','controversial','rising','new
+valid_sorting_options = ["hot", "top", "controversial", "best", "rising", "new"]
+sorting_options = []
 while(test!=True):
-    sorting_options.append(input("Enter which sorting method to use\n"));
-    if(input("Press Y for more sorting options and N to stop\n") == "N"):
-        test = True
+    try:
+        sort_option = input("Enter which sorting method to use (hot, top, best, controversial, rising, new)\n").lower()
+        if sort_option not in valid_sorting_options:
+            raise ValueError(f"{sort_option} is not a valid sorting option.")
+        sorting_options.append(sort_option)
+        more_options = input("Press Y for more sorting options and N to stop\n").lower()
+        if more_options.lower() == "n":
+            test = True
+    except ValueError as ve:
+        print(f"ERROR: {ve}. Please try again.")
 
 
 # Posts
-requested_posts = input("Enter amount of posts to grab on each request")
-if(requested_posts < 0):
-    print("Error, negative number input, please try again.")
-    exit
+test = False
+while(test!=True):
+    try:
+        requested_posts = int(input("Enter amount of posts, between 0-1000, to grab on each request: \n"))
+        if requested_posts < 0 or requested_posts > 1000:
+            raise ValueError(f"{requested_posts} is out of range")
+        else:
+            test = True
+    except ValueError as ve:
+        print(f"ERROR: {ve}. Please try again.")
 
 # Amount of posts to grab each request
 posts = list()          # Holds the amount of posts grabbed
