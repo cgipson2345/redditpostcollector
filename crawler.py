@@ -5,16 +5,30 @@ import praw, prawcore           # for accessing Reddit API
 import requests                 # for making HTTP requests
 import os                       # for file checking
 import re                       # for regex
+import sys
 
 
 # Constants
 MB = 1024*1024 # 1MB
 
+# get parameters from shell executable
+args = sys.argv
+
+# check number of arguments (should be at least 4)
+if len(args) < 3:
+    print("Usage: python crawl.py [num of json files] [num of posts]")
+    sys.exit(1)
+    
+# extract the parameters from the command line
+file_number = int(args[1])
+requested_posts = int(args[2])
+
 # File Handling
-file_number = int(input("Input how many json files currently possessed\n"))
+# file_number = int(input("Input how many json files currently possessed\n"))
 if(file_number < 0):
-    print("Error, negative number input, please try again.")
+    print("Error, negative number input for num of json files, please try again.")
     exit        # Num. of files created
+    
 cur_data_size = 0       # Total amount of data written
 min_file_size = 10 * MB  # Files should be around 10 MB
 min_data_size = 10 * MB # Total amount of data written should be around 500MB
@@ -26,6 +40,7 @@ reddit = praw.Reddit(client_id='BVN377aTHCSupxRmvJxRcA',
                      user_agent='CS172:SPR23GROUP21:v0.1 (by u/wecrawling)',
                      username='wecrawling',
                      password='crawling21')
+
 test = False
 subreddits = []
 while(test!=True):
@@ -60,7 +75,7 @@ while(test!=True):
 test = False
 while(test!=True):
     try:
-        requested_posts = int(input("Enter amount of posts, between 0-1000, to grab on each request: \n"))
+        # requested_posts = int(input("Enter amount of posts, between 0-1000, to grab on each request: \n"))
         if requested_posts < 0 or requested_posts > 1000:
             raise ValueError(f"{requested_posts} is out of range")
         else:
