@@ -11,6 +11,7 @@ from org.apache.lucene.document import Document, Field, FieldType
 from org.apache.lucene.queryparser.classic import QueryParser
 from org.apache.lucene.index import FieldInfo, IndexWriter, IndexWriterConfig, IndexOptions, DirectoryReader
 from org.apache.lucene.search import IndexSearcher, BoostQuery, Query
+from org.apache.lucene.search import BooleanQuery, BooleanClause # Added to combine queries
 from org.apache.lucene.search.similarities import BM25Similarity
 
 def create_index(post_data, index_dir):
@@ -73,13 +74,27 @@ def retrieve(storedir, query, num_docs):
     searchDir = NIOFSDirectory(Paths.get(storedir))
     searcher = IndexSearcher(DirectoryReader.open(searchDir))
     
-    parser = QueryParser('Body', StandardAnalyzer())
-    parsed_query = parser.parse(query)
+    # Body
+    body_parser = QueryParser('Body', StandardAnalyzer())
+    body_query = body_parser.parse(query)
+    
+    # https://lucene.apache.org/core/2_9_4/queryparsersyntax.html#Boosting%20a%20Term
+    # Title (Give more score if query appears in title)
+    title_score = 0.5 # Posts more relevant if query is in title
+    title_field = 'Title'
+    title_parser = QueryParser(title_field, StandardAnalyzer()).parse(query)
+    title_query = BoostQuery(title_parser, title_score) # Boosts relevancy of title by title_score
 
-    topDocs = searcher.search(parsed_query, num_docs).scoreDocs
+    # https://lucene.apache.org/core/8_0_0/core/org/apache/lucene/search/BooleanQuery.Builder.html
+    # Combine queries
+    new_query = BooleanQuery.Builder()
+    new_query.add(title_query, BooleanClause.Occur.SHOULD)
+    new_query.add(body_query, BooleanClause.Occur.SHOULD)
+
+    topDocs = searcher.search(new_query.build(), num_docs).scoreDocs
     topkdocs = []
     for hit in topDocs:
-        doc = searcher.doc(hit.doc)
+        doc = searcher.doc(hit.doc) # convert to Lucene Doc object
         topkdocs.append({
             "score": hit.score,
             "text": doc.get("Body")
