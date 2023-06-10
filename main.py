@@ -1,11 +1,20 @@
 from flask import Flask, render_template, request
 import pylucene
 from pylucene import retrieve
+from pylucene import create_index
+from pylucene import load_data
+
 
 
 
 num_docs = 10
 index_dir = 'sample_lucene_index/'
+data_dir = 'Data/'
+post_data = load_data(data_dir)
+create_index(post_data, index_dir)
+
+
+
 app = Flask(__name__)
 
 @app.route("/", methods=['GET', 'POST'])

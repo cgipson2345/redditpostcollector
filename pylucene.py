@@ -118,9 +118,9 @@ data_dir = 'Data/'
 index_dir = 'sample_lucene_index/'
 query = 'best game engine'
     
-print(f"Loading posts from {data_dir} folder")
-post_data = load_data(data_dir)
-print(f"Creating index from post data")
-create_index(post_data, index_dir)
-print(f"Top {num_docs} scores for query: {query}")
+#print(f"Loading posts from {data_dir} folder")
+#post_data = load_data(data_dir)
+#print(f"Creating index from post data")
+#create_index(post_data, index_dir)
+#print(f"Top {num_docs} scores for query: {query}")
 # retrieve(index_dir, query, num_docs) comment this one out for the implementation
