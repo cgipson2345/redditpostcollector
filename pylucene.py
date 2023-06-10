@@ -42,7 +42,7 @@ def create_index(post_data, index_dir):
         url = post['url']
         permalink = post['permalink']
         author = post['author']
-        timestamp = post['created_utc']
+       
 
         #print(f"Getting post: {id}")
 
@@ -55,7 +55,7 @@ def create_index(post_data, index_dir):
         doc.add(Field('URL', str(url), metaType))
         doc.add(Field('Permalink', str(permalink), metaType))
         doc.add(Field('Author', str(author), metaType))
-        doc.add(Field('Timestamp', str(timestamp), metaType))
+      
         
         # Add comment data
         for comment in post.get('comments', []):
