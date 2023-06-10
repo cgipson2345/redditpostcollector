@@ -123,4 +123,4 @@ post_data = load_data(data_dir)
 print(f"Creating index from post data")
 create_index(post_data, index_dir)
 print(f"Top {num_docs} scores for query: {query}")
-retrieve(index_dir, query, num_docs)
+# retrieve(index_dir, query, num_docs) comment this one out for the implementation
