@@ -1,2 +1,2 @@
 # redditpostcollector
-this is a reddit post collector for cs 172
+this is a reddit post collector for collecting reddit posts at an efficient rate
